@@ -319,7 +319,8 @@ class Item
      */
     public function checkActiveStatus()
     {
-        $path        = ltrim(parse_url($this->url(), PHP_URL_PATH), '/');
+        $url = parse_url($this->url(), PHP_URL_PATH) ?? '';
+        $path        = ltrim($url, '/');
         $requestPath = Request::path();
 
         if (isset($this->builder->config) && $this->builder->config['rest_base']) {
