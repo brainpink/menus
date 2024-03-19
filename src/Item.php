@@ -37,6 +37,8 @@ class Item
      */
     public $parent;
 
+    public $link;
+
     /**
      * @var array
      */
