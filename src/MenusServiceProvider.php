@@ -1,47 +1,41 @@
 <?php
 namespace Caffeinated\Menus;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class MenusServiceProvider extends ServiceProvider {
+class MenusServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+    /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerServices();
+    }
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['menu'];
+    }
 
-	/**
-	 * Register bindings in the container.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->registerServices();
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return ['menu'];
-	}
-
-	/**
-	 * Register the package services.
-	 *
-	 * @return void
-	 */
-	protected function registerServices()
-	{
-		// Bind our Menu class to the IoC container
-		$this->app->singleton('menu', function($app) {
-			return new Menu($app['config']);
-		});
-	}
+    /**
+     * Register the package services.
+     *
+     * @return void
+     */
+    protected function registerServices()
+    {
+        // Bind our Menu class to the IoC container
+        $this->app->singleton('menu', function ($app) {
+            return new Menu($app['config']);
+        });
+    }
 }

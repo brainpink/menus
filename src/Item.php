@@ -4,6 +4,7 @@ namespace Caffeinated\Menus;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 
 class Item
 {
@@ -324,12 +325,12 @@ class Item
         $requestPath = Request::path();
 
         if (isset($this->builder->config) && $this->builder->config['rest_base']) {
-            $base = (is_array($this->builder->config['rest_base'])) ? implode('|', $this->builder->config['rest_base']) : $this->builder->conf['rest_base'];
+            $base = (is_array($this->builder->config['rest_base'])) ? implode('|', $this->builder->config['rest_base']) : $this->builder->config['rest_base'];
 
             list($path, $requestPath) = preg_replace('@^('.$base.')/@', '', [$path, $requestPath], 1);
         }
 
-        if ($this->url() == Request::url() || $this->url() == \URL::secure(Request::path())) {
+        if ($this->url() == Request::url() || $this->url() == URL::secure(Request::path())) {
             $this->activate();
         }
     }

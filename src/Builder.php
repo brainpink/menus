@@ -4,6 +4,7 @@ namespace Caffeinated\Menus;
 use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 
 class Builder
 {
@@ -133,7 +134,8 @@ class Builder
     public function getLastGroupPrefix()
     {
         if (count($this->groupStack) > 0) {
-            return Arr::get(last($this->groupStack), 'prefix', '');
+            $lastGroup = end($this->groupStack);
+            return Arr::get($lastGroup, 'prefix', '');
         }
 
         return null;
@@ -307,14 +309,14 @@ class Builder
                 return $url[0];
             }
 
-            return url()->to($prefix.$url[0], array_slice($url, 1), $secure);
+            return URL::to($prefix.$url[0], array_slice($url, 1), $secure);
         }
 
         if (self::isAbsolute($url)) {
             return $url;
         }
 
-        return url()->to($prefix.$url, array(), $secure);
+        return URL::to($prefix.$url, array(), $secure);
     }
 
     /**
@@ -327,10 +329,10 @@ class Builder
     protected function getRoute($route)
     {
         if (is_array($route)) {
-            return url()->route($route[0], array_slice($route, 1));
+            return URL::route($route[0], array_slice($route, 1));
         }
 
-        return url()->route($route);
+        return URL::route($route);
     }
 
     /**
@@ -343,10 +345,10 @@ class Builder
     protected function getAction($action)
     {
         if (is_array($action)) {
-            return url()->action($action[0], array_slice($action, 1));
+            return URL::action($action[0], array_slice($action, 1));
         }
 
-        return url()->action($action);
+        return URL::action($action);
     }
 
     /**
